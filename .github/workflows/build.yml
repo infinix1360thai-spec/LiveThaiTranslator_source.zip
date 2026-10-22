@@ -1,12 +1,8 @@
 
-name: Build Android APK
+name: Build ubuntu-latest
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'source.zip'
-      - '.github/workflows/build.yml'
 
 jobs:
   build:
@@ -21,17 +17,16 @@ jobs:
 
       - uses: android-actions/setup-android@v3
 
-      - name: Install Android SDK
+      - name: Install SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      - name: Extract project
+      - name: Extract source
         run: |
-          mkdir project
-          unzip source.zip -d project
+          unzip LiveThaiTranslator_source.zip -d project
 
       - name: Build APK
         run: gradle -p project assembleDebug
